@@ -1,0 +1,4 @@
+trikampio tipas: bukasis, perimetras: 6
+trikampio tipas: bukasis, perimetras: 16
+trikampio tipas: lygiakrastis, perimetras: 36
+trikampio tipas: lygiasonis, perimetras: 171
