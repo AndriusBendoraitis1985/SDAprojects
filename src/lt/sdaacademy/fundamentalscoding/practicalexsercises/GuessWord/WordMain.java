@@ -1,41 +1,54 @@
 package lt.sdaacademy.fundamentalscoding.practicalexsercises.GuessWord;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class WordMain {
-    //   private static final String FILE_LOCATION = "C:\\Users\\Vartotojas\\IdeaProjects\\AntraPamoka\\src\\lt\\sdaacademy\\fundamentalscoding\\practicalexsercises\\GuessWord\\wordData.txt";
-    private static final String WORD = "rytas";
+    private static final String FILE_LOCATION = "C:\\Users\\Vartotojas\\IdeaProjects\\AntraPamoka\\src\\lt\\sdaacademy\\fundamentalscoding\\practicalexsercises\\GuessWord\\wordData.txt";
 
     public static void main(String[] args) {
         Scanner wordScanner = new Scanner(System.in);
 
-        char[] wordlist = WORD.toCharArray();
+        char[] wordlist = getWordFromFile();
         char[] guessWord = replaceLetterToUnderscore(wordlist);
 
-        System.out.println(wordlist);
-        System.out.println(guessWord);
+        char[] intermediateList = {};
+        int count = 1;
 
-        System.out.println("Prasome ivesti zodi arba raide");
-        String input = wordScanner.nextLine();
-        char[] usersInput= input.toCharArray();
-        if (usersInput.length>1){
-            if (usersInput.equals(wordlist)){
-                System.out.println("zodis atspetas");
-            } else {
-                System.out.println("Klaida");
+        while (true) {
+            if (Arrays.equals(intermediateList, wordlist)) {
+                System.out.println("Sveikinu, žodis atspėtas");
+                break;
             }
+            System.out.println("Prašome įvesti žodį arba raidę");
+            String input = wordScanner.nextLine();
+            char[] usersInput = input.toLowerCase().toCharArray();
 
-        }if (usersInput.length<=1){
-            char[] intermediateList = checkTheLetter(wordlist, usersInput);
+            if (Arrays.equals(usersInput, wordlist)) {
+                System.out.println("Sveikinu, žodis atspėtas");
+                break;
+            } else if (usersInput.length <= 1) {
+                intermediateList = checkTheLetter(wordlist, usersInput, guessWord);
+                System.out.println(intermediateList);
+                guessWord = intermediateList;
+            }
+            count++;
         }
+        System.out.printf("Žodis atspėtas iš %s spėjimų ", count);
+    }
 
+    private static char[] getWordFromFile() {
+        char[] wordlist = {};
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_LOCATION))) {
+            String line = br.readLine();
+            wordlist = line.toCharArray();
+        } catch (IOException e) {
+            System.out.println("Klaida");
+        }return wordlist;
     }
 
     private static char[] replaceLetterToUnderscore(char[] wordlist) {
@@ -46,15 +59,16 @@ public class WordMain {
         return getGuessWord;
     }
 
-    private static char[] checkTheLetter (char[] wordlist, char usersInput){
+    private static char[] checkTheLetter(char[] wordlist, char[] usersInput, char[] guessWord) {
         char[] intermediateList = new char[wordlist.length];
-        for (int i=0; i<wordlist.length; i++) {
-            if (wordlist[i]=input){
-
+        for (int i = 0; i < wordlist.length; i++) {
+            if (wordlist[i] != usersInput[0]) {
+                intermediateList[i] = guessWord[i];
             }
-
-        } return intermediateList;
+            if (wordlist[i] == usersInput[0]) {
+                intermediateList[i] = usersInput[0];
+            }
+        }
+        return intermediateList;
     }
-
-
 }
