@@ -10,7 +10,7 @@ public class Example1 {
     private static final String OUTPUT_FILE_LOCATION = "C:\\Users\\Vartotojas\\IdeaProjects\\AntraPamoka\\src\\lt\\sdaacademy\\fundamentals\\fileWrite\\result.txt";
 
     public static void main(String[] args) {
-        String text = "Good Morning!";
+        String text = "Good Morning Andrius!";
 
         writeDataToFile(text);
     }

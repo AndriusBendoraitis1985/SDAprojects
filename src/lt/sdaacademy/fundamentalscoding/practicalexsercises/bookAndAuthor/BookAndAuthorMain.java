@@ -17,8 +17,6 @@ public class BookAndAuthorMain {
             System.out.println(book.toString());
         }
 
-        //     System.out.println(bookList.get(0));
-        //      System.out.println(bookList.get(1));
     }
 
     private static List<Book> getBooksFromFile() {
