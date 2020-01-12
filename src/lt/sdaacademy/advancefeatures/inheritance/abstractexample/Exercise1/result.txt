@@ -1,0 +1,4 @@
+Askritimo plotas yra 314,16 
+Askritimo ilgis yra 62,83 
+Staciakampio plotas yra 48
+Trikampio plotas yra 24
