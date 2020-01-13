@@ -20,6 +20,5 @@ public class MapExample {
 
             System.out.printf("%s : %s \n", country, capital);
         }
-
     }
 }
