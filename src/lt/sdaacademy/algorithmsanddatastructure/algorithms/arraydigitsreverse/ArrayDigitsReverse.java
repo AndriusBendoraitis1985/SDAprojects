@@ -5,7 +5,7 @@ public class ArrayDigitsReverse {
         int [] arrOriginal = {1,4,5,6,7,1,2};
 
         for (int element:reverseArray(arrOriginal)) {
-            System.out.println(element);
+            System.out.print(element + " ");
         }
     }
     private static int [] reverseArray (int [] arrOriginal){
