@@ -1,0 +1,10 @@
+3
+5
+Antanas,Seskines g. 12,televizorius,2020-02-20
+Gediminas,Geliu g. 1,kompiuteris-telefonas,2020-02-10
+Juozapas,Geliu g. 64,mikro kontroleris-telefonas-televizorius,2020-03-30
+Kilobaitas,Varliu g. 121,televizorius,1202,DPD,Oro uosto g. 64,2020-03-01
+Varle,Tigru g. 4,telefonas,946,LP Express,Giliu g. 101,2020-02-01
+Pigu,Pakabu g. 11,kompiuteris,4021,DPD,Vilniaus g. 14,2020-01-12
+Brangu,Driezu g. 16,nesiojamas kompiuteris,760,Greitos siuntos,Kauno g. 94,2020-01-01
+1a,Pieniu g. 953,mikro kontroleris,98,Letos siuntos,Stabdziu g. 50,2020-02-17
