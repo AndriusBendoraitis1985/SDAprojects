@@ -9,6 +9,10 @@ public class Courier extends Location{
         this.deliveryDate=deliveryDate;
     }
 
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
     @Override
     public String toString() {
         return "Courier name='" + name + '\'' +

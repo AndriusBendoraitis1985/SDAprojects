@@ -17,6 +17,6 @@ public class Company extends Location {
     public String toString() {
         return "Company name=" + name +
                 ", address='" + address + '\'' +
-                ", gadget='" + gadget + '\'';
+                ", " + gadget + '\'';
     }
 }

@@ -17,6 +17,7 @@ package lt.sdaacademy.advancefeaturescoding;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +32,15 @@ public class Main {
         List<Person> personList = getPersonListFromList(amountOfPersons, mainList);
         List<Company> companyList = getCompanyListFromList(amountOfCompanies, amountOfPersons, mainList);
 
-
         Company mostExpensiveGadget = getCompanyWithMostExpensiveGadget (companyList);
-        System.out.println("pats brangiausias Company objektas yra: " + mostExpensiveGadget);
+        System.out.println("Pats brangiausias Company objektas yra: " + mostExpensiveGadget);
 
+        List<Person> deliveryOnTime = getPersonListWhoWillGetdeliveryOnTime (personList, companyList);
+        System.out.println("Visas prekes laiku gaus:");
+
+        for (Person person:deliveryOnTime) {
+            System.out.println(person.name);
+        }
     }
 
     private static List<String> getMainInfoFromFile(){
@@ -107,7 +113,29 @@ public class Main {
                 biggestPrice = companyList.get(i).getGadget().getPrice();
                 mostExpensiveCompanyGadget = companyList.get(i);
             }
+        }  return mostExpensiveCompanyGadget;
+    }
+
+    private static List<Person> getPersonListWhoWillGetdeliveryOnTime (List<Person> personList, List<Company> companyList){
+        List<Person> deliveryOnTime = new ArrayList<>();
+        int count = 0;
+
+        for (int i = 0; i<personList.size(); i++){
+            for (int j = 0; j<personList.get(i).getGadgetType().size(); j++) {
+                for (Company company : companyList) {
+                    if (personList.get(i).getGadgetType().get(j).equals(company.getGadget().getGadgetType())) {
+                        if (LocalDate.parse(personList.get(i).getDeliveryUntilDate()).compareTo
+                                (LocalDate.parse(company.getGadget().getCourier().getDeliveryDate())) > 0) {
+                            count++;
+                        }
+                    }
+                }
+            }
+            if (count==personList.get(i).getGadgetType().size()){
+                deliveryOnTime.add(personList.get(i));
+            }
+            count = 0;
         }
-        return mostExpensiveCompanyGadget;
+        return deliveryOnTime;
     }
 }
