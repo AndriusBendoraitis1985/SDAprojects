@@ -24,9 +24,9 @@ public class Person extends Location{
 
     @Override
     public String toString() {
-        return  "Person name='" + name + '\'' +
+        return  "Person name= " + name + '\'' +
                 ", address=" + address +
-                ", gadgetType='" + gadgetType + '\'' +
-                ", delivery until='" + deliveryUntilDate + '\'';
+                ", gadgetType= " + gadgetType + '\'' +
+                ", delivery until= " + deliveryUntilDate + '\'';
     }
 }

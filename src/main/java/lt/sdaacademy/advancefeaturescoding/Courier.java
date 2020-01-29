@@ -15,8 +15,8 @@ public class Courier extends Location{
 
     @Override
     public String toString() {
-        return "Courier name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", delivery date='" + deliveryDate + '\'';
+        return ", Courier name= " + name  +
+                ", address= " + address +
+                ", delivery date= " + deliveryDate;
     }
 }

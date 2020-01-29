@@ -26,8 +26,7 @@ public class Gadget {
 
     @Override
     public String toString() {
-        return "gadgetType=" + gadgetType +
-                ", price=" + price +
-                ", courier=" + courier;
+        return "gadgetType= " + gadgetType +
+                ", price= " + price + courier;
     }
 }
