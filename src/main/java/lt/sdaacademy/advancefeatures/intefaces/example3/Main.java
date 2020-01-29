@@ -1,5 +1,9 @@
 package lt.sdaacademy.advancefeatures.intefaces.example3;
 
+/*Sukurti interfeisą, kuris turėtų metodą findRicher.  Sukurti dvi klases Person ir Country ,
+ bei abstrakčia klasę, kuri jungtų pastarasias. Inicializavus kelis objektus,
+ naudojantis findRicherfunkciją, rasti turtingiausią objektą. (edited)*/
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

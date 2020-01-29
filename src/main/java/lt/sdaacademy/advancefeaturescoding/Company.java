@@ -15,8 +15,7 @@ public class Company extends Location {
 
     @Override
     public String toString() {
-        return "Company name=" + name +
-                ", address='" + address + '\'' +
-                ", gadget='" + gadget + '\'';
+        return "Company name= " + name +
+                ", address= " + address + ", " + gadget;
     }
 }

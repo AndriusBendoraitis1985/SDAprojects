@@ -15,14 +15,18 @@ package lt.sdaacademy.advancefeaturescoding;
         * Visa informacija išvedama į result.txt failą.*/
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
     private static final String INPUT_FILE = "C:\\Users\\Vartotojas\\IdeaProjects\\AntraPamoka\\src\\main\\java\\lt\\sdaacademy\\advancefeaturescoding\\Data.txt";
+    private static final String OUTPUT_FILE = "C:\\Users\\Vartotojas\\IdeaProjects\\AntraPamoka\\src\\main\\java\\lt\\sdaacademy\\advancefeaturescoding\\GadgetResult.ltxt";
 
     public static void main(String[] args) {
         List<String> mainList = getMainInfoFromFile();
@@ -31,10 +35,17 @@ public class Main {
         List<Person> personList = getPersonListFromList(amountOfPersons, mainList);
         List<Company> companyList = getCompanyListFromList(amountOfCompanies, amountOfPersons, mainList);
 
-
         Company mostExpensiveGadget = getCompanyWithMostExpensiveGadget (companyList);
-        System.out.println("pats brangiausias Company objektas yra: " + mostExpensiveGadget);
+        System.out.println("Pats brangiausias Company objektas yra: " + mostExpensiveGadget);
 
+        List<Person> deliveryOnTime = getPersonListWhoWillGetAllGadgetsOnTime (personList, companyList);
+        System.out.println("Visas prekes laiku gaus:");
+
+        for (Person person:deliveryOnTime) {
+            System.out.println(person.name);
+        }
+
+        writeDataToFile(deliveryOnTime, mostExpensiveGadget);
     }
 
     private static List<String> getMainInfoFromFile(){
@@ -107,7 +118,41 @@ public class Main {
                 biggestPrice = companyList.get(i).getGadget().getPrice();
                 mostExpensiveCompanyGadget = companyList.get(i);
             }
+        }  return mostExpensiveCompanyGadget;
+    }
+
+    private static List<Person> getPersonListWhoWillGetAllGadgetsOnTime (List<Person> personList, List<Company> companyList){
+        List<Person> deliveryOnTime = new ArrayList<>();
+        int count = 0;
+
+        for (int i = 0; i<personList.size(); i++){
+            for (int j = 0; j<personList.get(i).getGadgetType().size(); j++) {
+                for (Company company : companyList) {
+                    if (personList.get(i).getGadgetType().get(j).equals(company.getGadget().getGadgetType())) {
+                        if (LocalDate.parse(personList.get(i).getDeliveryUntilDate()).compareTo
+                                (LocalDate.parse(company.getGadget().getCourier().getDeliveryDate())) > 0) {
+                            count++;
+                        }
+                    }
+                }
+            }
+            if (count==personList.get(i).getGadgetType().size()){
+                deliveryOnTime.add(personList.get(i));
+            }
+            count = 0;
         }
-        return mostExpensiveCompanyGadget;
+        return deliveryOnTime;
+    }
+
+    private static void writeDataToFile (List<Person> deliveryOnTime, Company mostExpensiveGadget){
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(OUTPUT_FILE))){
+            bw.write("Pats brangiausias Company objektas yra: "+ mostExpensiveGadget + "\n");
+            bw.write("Visas prekes laiku gaus:\n");
+            for (Person person:deliveryOnTime) {
+                bw.write((person.name)+"\n");
+            }
+        }catch (IOException e){
+            System.out.println("Klaida irasant i faila");
+        }
     }
 }

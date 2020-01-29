@@ -16,10 +16,17 @@ public class Gadget {
         return price;
     }
 
+    public GadgetType getGadgetType() {
+        return gadgetType;
+    }
+
+    public Courier getCourier() {
+        return courier;
+    }
+
     @Override
     public String toString() {
-        return "gadgetType=" + gadgetType +
-                ", price=" + price +
-                ", courier=" + courier;
+        return "gadgetType= " + gadgetType +
+                ", price= " + price + courier;
     }
 }

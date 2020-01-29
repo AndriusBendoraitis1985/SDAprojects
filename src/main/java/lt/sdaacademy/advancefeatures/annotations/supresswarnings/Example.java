@@ -13,5 +13,5 @@ public class Example {
     private static void addWordIntoList(List inputList){ //reikia paleisti per GitBasch javac Example.java. projekto direktorijoje
         List<String> list = (List<String>) inputList;
     }
-    // TODO come back later and check in internet what is aproblem, why do not work with gitbash "javac Example.java
+    // TODO come back later and check in internet what is a problem, why do not work with gitbash "javac Example.java
 }

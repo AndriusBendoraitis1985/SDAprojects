@@ -14,11 +14,19 @@ public class Person extends Location{
 
     }
 
+    public String getDeliveryUntilDate() {
+        return deliveryUntilDate;
+    }
+
+    public List<GadgetType> getGadgetType() {
+        return gadgetType;
+    }
+
     @Override
     public String toString() {
-        return  "deliveryUntilDate='" + deliveryUntilDate + '\'' +
-                ", gadgetType=" + gadgetType +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'';
+        return  "Person name= " + name + '\'' +
+                ", address=" + address +
+                ", gadgetType= " + gadgetType + '\'' +
+                ", delivery until= " + deliveryUntilDate + '\'';
     }
 }
