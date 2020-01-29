@@ -1,5 +1,0 @@
-Jonas,1000,25,man
-Petras,1100,27,man
-Ana,800,30,woman
-Adele,1500,32,woman
-Linas,1300,42,man
