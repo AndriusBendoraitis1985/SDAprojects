@@ -13,5 +13,9 @@ public class Cat extends Animal{
         this.color=color;
 
     }
+    @Override
+    public String toString() {
+        return "My color is " + color + ". My voice is " + voice + ". I am mammal: " + mammal;
+    }
 
 }

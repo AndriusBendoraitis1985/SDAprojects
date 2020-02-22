@@ -1,0 +1,20 @@
+{
+  "persons": [
+    {
+      "name": "Petras",
+      "surname": "Petraitis",
+      "phonenumber": 14444444
+    },
+    {
+      "name": "Lina",
+      "surname": "Smilgaitė",
+      "phonenumber": 33333333
+    },
+    {
+      "name": "Zita",
+      "surname": "Gailytė",
+      "phonenumber": 22222222
+    }
+  ]
+}
+

@@ -8,4 +8,9 @@ public class Dog extends Animal{
         super (mammal, voice);
         this.breed=breed;
     }
+
+    @Override
+    public String toString() {
+        return "My breed is " + breed + ". My voice is " + voice + ". I am mammal: " + mammal;
+    }
 }

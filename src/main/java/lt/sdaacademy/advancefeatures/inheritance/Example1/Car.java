@@ -9,7 +9,7 @@ public class Car extends Vehicle{
         super (maxSpeed);
         this.convertable=convertable;
     }
-    public boolean isConvertable(){
+    public boolean isConvertable() {
         return convertable;
     }
 }

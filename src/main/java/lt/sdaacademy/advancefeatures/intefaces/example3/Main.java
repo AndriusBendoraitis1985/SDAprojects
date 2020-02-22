@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Main {
 
-    public static void main (String [] args){
+    public static void main(String[] args) {
         List<Resident> residentList = new ArrayList<>();
 
         Resident resident1 = new Country("Jonas", "Lietuva", BigDecimal.valueOf(19));
@@ -20,25 +20,14 @@ public class Main {
         residentList.add(resident2);
         residentList.add(resident3);
 
-        BigDecimal maxMoney= BigDecimal.valueOf(0);
-        String maxName = "";
-
         Resident richest = residentList.get(0);
 
-    /*    for(int i =0; i<residentList.size()-1; i++){
-            if (richest.findRicher(residentList.get(i+1).money)){
-                richest = residentList.get(i+1);
+        for (Resident resident : residentList) {
+            if (richest.findRicher(resident.getMoney())) {
+                richest = resident;
             }
-        }*/
-    //TODO finish for cycle
+        }
 
-
-
-
-        System.out.println(maxName);
-        System.out.println(maxMoney);
+        System.out.println(richest.getName());
     }
-
-
-
 }

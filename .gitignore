@@ -1,2 +1,4 @@
 /out/
 /.idea/
+/target/classes/log4j.properties
+/target/classes/log4j-application.log

@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final String OUTPUT_FILE_LOCATION = "C:\\Users\\Vartotojas\\IdeaProjects\\AntraPamoka\\src\\lt\\sdaacademy\\advancefeatures\\inheritance\\abstractexample\\Exercise1\\result.txt";
+    private static final String OUTPUT_FILE_LOCATION = "C:\\Users\\Vartotojas\\IdeaProjects\\AntraPamoka\\src\\main\\java\\lt\\sdaacademy\\advancefeatures\\inheritance\\abstractexample\\Exercise1\\result.txt";
 
     public static void main(String[] args) {
 

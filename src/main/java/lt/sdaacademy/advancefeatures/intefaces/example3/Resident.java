@@ -20,8 +20,9 @@ public abstract class Resident implements Ritch{
     public BigDecimal getMoney() {
         return money;
     }
+
     @Override
-    public boolean findRicher() {
+    public boolean findRicher(BigDecimal money) {
         return this.money.compareTo(money)<0;
     }
 }

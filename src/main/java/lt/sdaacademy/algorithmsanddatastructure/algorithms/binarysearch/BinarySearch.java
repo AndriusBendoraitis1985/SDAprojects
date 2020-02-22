@@ -4,7 +4,7 @@ package lt.sdaacademy.algorithmsanddatastructure.algorithms.binarysearch;
 public class BinarySearch {
     public static void main(String[] args) {
         int[] mas = {0, 2, 5, 7, 16, 17, 18, 20, 21};
-        int x = 13;
+        int x = 2;
         int a = 0;
         int b = mas.length - 1;
 

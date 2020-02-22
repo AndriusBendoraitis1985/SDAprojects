@@ -15,7 +15,7 @@ public class AnimalMain {
 
         for (Animal animal: animals) {
             System.out.println(animal.getClass().getSimpleName());
-            System.out.println(animal.yieldVoice());
+            System.out.println(animal.toString());
         }
 }
 }
