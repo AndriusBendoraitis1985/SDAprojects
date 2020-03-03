@@ -13,5 +13,23 @@ Create classes Car and Bike, that will implement/inherit Vehicle.
         Created person will then buy a bike and car. Information about what and when was bought should be displayed.
 */
 
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise4.model.Bike;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise4.model.Car;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise4.model.Person;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise4.service.IOservice;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise4.service.Parser;
+
 public class Main {
+
+    public static void main(String[] args) {
+
+
+        String[] splittedPersonData = IOservice.readDataFromScanner();
+        Person person = Parser.createNewPersoObjectFromGivenData(splittedPersonData);
+        Car car = new Car();
+        Bike bike = new Bike();
+
+        System.out.println(person.toString()+ car.purchaseVehicle());
+        System.out.println(person.toString()+ bike.purchaseVehicle());
+    }
 }

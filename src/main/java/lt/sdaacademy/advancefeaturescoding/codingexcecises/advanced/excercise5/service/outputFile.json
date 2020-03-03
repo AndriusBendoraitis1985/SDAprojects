@@ -1,0 +1,15 @@
+{
+  "countries": {
+    "Latvia": [
+      "Riga back and forth",
+      "Venspils",
+      "Liepaja"
+    ],
+    "Lietuva": [
+      "Vilnius",
+      "Kaunas back and forth",
+      "Klaipeda",
+      "Siauliai"
+    ]
+  }
+}
