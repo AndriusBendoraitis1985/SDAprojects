@@ -13,15 +13,47 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List <Student> allStudents = StudentsRepository.getStudents();
-        List <Trainer> allTrainers = TrainerRepositories.getTrainerList();
+        List<Student> allStudents = StudentsRepository.getStudents();
+        List<Trainer> allTrainers = TrainerRepositories.getTrainerList();
         List<Group> groupList = GroupRepository.getGroupList();
 
-   //     allStudents.forEach(System.out::println);
-     //   allTrainers.forEach(System.out::println);
+        //     allStudents.forEach(System.out::println);
+        //   allTrainers.forEach(System.out::println);
+        System.out.println("Initial group list with trainers and students: ");
         groupList.forEach(System.out::println);
 
-        List<Group> sortedGroupListByStudentSurnamesByAlphabet =  Sort.getSortGroupListByStudentsLastNameByAlphabet(groupList);
+        List<Group> sortedGroupListByStudentSurnamesByAlphabet = Sort.getSortGroupListByStudentsLastNameByAlphabet(groupList);
+        System.out.println("Groups by students last names: ");
+        sortedGroupListByStudentSurnamesByAlphabet.forEach(System.out::println);
+
+        Group groupWithMaxStudents = Sort.getGroupWithMaxStudets(groupList);
+        System.out.println("Group with max students: "+groupWithMaxStudents);
+
+        List <Student> youngerStudentsThenTwentyfiveFromAllGroups = Sort.getListOfStudentsYoungerThen25(groupList);
+        System.out.println("Students younger than 25:");
+        youngerStudentsThenTwentyfiveFromAllGroups.forEach(System.out::println);
+
+        System.out.println("Group list by trainers:");
+        for (Group group: groupList) {
+            System.out.println(group.getName());
+            System.out.println(group.getTrainer().getFirstName());
+            for (Student student :group.getStudentList()) {
+                System.out.println(student.getFirstName());
+            }
+            System.out.println();
+        }
+
+        List <Student> studentsWithpreviousJavaKnoledge = Sort.getStudentsWithpreviousJavaKnoledgeList(groupList);
+        System.out.println("Students with previous Java knowledge");
+        studentsWithpreviousJavaKnoledge.forEach(System.out::println);
+
+        Group groupWithMaxStudentsAndNoPreviousJavaKnowledge = Sort.getGroupWithoutMaxStudentsAndNoPreviousJavaKnowledge(groupList);
+        System.out.println("Grout with max student without Java knowledge: "+groupWithMaxStudentsAndNoPreviousJavaKnowledge);
+
+        List <Group> groupsWithoutYoungerStudentsThen20 = Sort.getGroupsWithoutYoungerStudentsThan20(groupList);
+        System.out.println("Groups without students younger than 20:");
+        groupsWithoutYoungerStudentsThen20.forEach(System.out::println);
+
 
 
     }

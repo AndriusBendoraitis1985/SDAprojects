@@ -15,7 +15,7 @@ public class StudentsRepository {
 
         for (int i = 1; i<=15;i++){
             char x = 97;
-          studentList.add(new Student(name+i, surname + (char)(x+i), localDate.plusDays(i*100), i % 2 == 0));
+          studentList.add(new Student(name+i, surname + (char)(x+i), localDate.plusDays(i*500), i % 2 == 0));
         }
     }
 

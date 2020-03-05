@@ -10,6 +10,10 @@ public class Student extends Person{
         this.hasPreviousJavaKnowledge = hasPreviousJavaKnowledge;
     }
 
+    public boolean isHasPreviousJavaKnowledge() {
+        return hasPreviousJavaKnowledge;
+    }
+
     @Override
     public String toString() {
         return "Student{" +

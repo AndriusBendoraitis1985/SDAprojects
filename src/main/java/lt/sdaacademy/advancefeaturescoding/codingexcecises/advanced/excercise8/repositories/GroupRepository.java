@@ -34,7 +34,7 @@ public class GroupRepository {
     }
 
     private static List<Student> assingStudentList(List<Student> allStudents) {
-        List<Student> randomStudentList = new ArrayList<>(5);
+        List<Student> randomStudentList = new ArrayList<>();
         try {
             Scanner input = new Scanner(System.in);
             System.out.println("Enter amount of studens to be in one group");
@@ -42,7 +42,7 @@ public class GroupRepository {
             Random random = new Random();
             int i = random.nextInt(15);
             randomStudentList.add(allStudents.get(i));
-            for (int j = 1; j <= amountOfstudents - 1; j++) {
+            for (int j = 1; j < amountOfstudents ; j++) {
                 i = random.nextInt(15);
                 Student testStudentName = allStudents.get(i);
                 if (randomStudentList.stream().noneMatch(student -> student.equals(testStudentName))) {
@@ -51,12 +51,13 @@ public class GroupRepository {
                     j--;
                 }
             }
-            if (randomStudentList.size()>5){
+            if (randomStudentList.size()>4){
                 throw new MaximumNumberOfStudentsReached("Too many students added to one group");
             }
         } catch (MaximumNumberOfStudentsReached e) {
             System.out.println(e.getMessage());
-        }  return randomStudentList;
+        }
+        return randomStudentList;
     }
 
 }
