@@ -14,18 +14,28 @@ package lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise7;
 </dependency>*/
 
 
-import com.thedeanda.lorem.Lorem;
-import com.thedeanda.lorem.LoremIpsum;
+import java.util.List;
+import java.util.Map;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise7.services.GenerateWords;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise7.services.Sort;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise7.services.ToJson;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Lorem lorem = LoremIpsum.getInstance();
-        lorem.getWords(5,10);
+        List<String> cityList = GenerateWords.getCitiesList();
 
-        System.out.println(lorem.getWords(5,10));
+        Cities cities = new Cities(cityList);
 
+        ToJson.writeDataToJason(cities);
+
+        Map <String, Long> finalMap = Sort.getStatisticMap(cityList);
+        for (Map.Entry<String,Long> names: finalMap.entrySet()) {
+            String country = names.getKey();
+            Long count = names.getValue();
+            System.out.printf("%s : %s \n", country, count);
+        }
     }
 
 

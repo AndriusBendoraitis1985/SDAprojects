@@ -18,7 +18,6 @@ public class Warehouse {
         products.replace("Computer",5000);
         products.remove("Table");
         products.put("Table", 200);
-//TODO pakeisti, kad MAP key butu name, o value visas MAP<key,value>
         return products;
     }
 

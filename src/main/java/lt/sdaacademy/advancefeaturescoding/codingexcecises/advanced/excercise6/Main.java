@@ -13,17 +13,19 @@ import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise6.s
 public class Main {
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-
         Map<String, List<String>> journey = Read.readDataFromJson();
+
+        printInitialJourneyList(journey);
+
+        Map<String, List<String>> finaJourney = makeNewListAccordingUsersAnswers(journey);
+
+        printFinalJourney (finaJourney);
+    }
+
+    private static Map<String, List<String>> makeNewListAccordingUsersAnswers(Map<String, List<String>> journey) {
+        Scanner input = new Scanner(System.in);
         Map<String, List<String>> finaJourney = new HashMap<>(journey);
 
-        for (Map.Entry<String, List<String>> trip : journey.entrySet()) {
-            String country = trip.getKey();
-            List<String> cities = trip.getValue();
-
-            System.out.println(country + " " + cities);
-        }
         for (Map.Entry<String, List<String>> trip : journey.entrySet()) {
             String country = trip.getKey();
             List<String> cities = trip.getValue();
@@ -33,7 +35,6 @@ public class Main {
             while (repeat) {
                 System.out.println("If you want to view another city of country " + country + ", write 'next'");
                 String answerNext = input.nextLine();
-                String curentcity = "";
                 if (answerNext.equals("next")) {
                     System.out.println(cities.get(i));
 
@@ -41,13 +42,13 @@ public class Main {
                 System.out.println("Do you want to remove from your journey city " + cities.get(i) + ", write 'remove'");
                 answerNext = input.nextLine();
                 if (answerNext.equals("remove")) {
-                    finaJourney.remove(country, cities.get(i));
+                    cities.remove(i);
                 }
-                if (i >= cities.size()-1){
-                    System.out.println("All cities from country "+ country + " were viewed");
+                if (i >= cities.size() - 1) {
+                    System.out.println("All cities from country " + country + " were viewed");
                     System.out.println("Do you want to remove country " + country + " from your journey , write 'remove'");
                     answerNext = input.nextLine();
-                    if (answerNext.equals("remove")){
+                    if (answerNext.equals("remove")) {
                         finaJourney.remove(country);
                     }
                     repeat = false;
@@ -55,7 +56,19 @@ public class Main {
                 i++;
             }
         }
-        for (Map.Entry<String, List<String>> trip : finaJourney.entrySet()) {
+        return finaJourney;
+    }
+
+     private static void printInitialJourneyList(Map<String, List<String>> journey) {
+        for (Map.Entry<String, List<String>> trip : journey.entrySet()) {
+            String country = trip.getKey();
+            List<String> cities = trip.getValue();
+
+            System.out.println(country + " " + cities);
+        }
+    }
+    private static void printFinalJourney (Map<String, List<String>> finalJourney){
+        for (Map.Entry<String, List<String>> trip : finalJourney.entrySet()) {
             String country = trip.getKey();
             List<String> cities = trip.getValue();
 
@@ -63,4 +76,3 @@ public class Main {
         }
     }
 }
-//TODO refactor code
