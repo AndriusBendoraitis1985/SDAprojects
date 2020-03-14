@@ -1,5 +1,4 @@
 package lt.sdaacademy.designpatterns.structural.flyweight;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;

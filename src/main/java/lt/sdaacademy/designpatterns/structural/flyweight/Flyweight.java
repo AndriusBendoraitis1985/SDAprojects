@@ -1,6 +1,5 @@
 package lt.sdaacademy.designpatterns.structural.flyweight;
 
-
 import java.awt.Color;
 import java.util.Random;
 

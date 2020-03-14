@@ -51,7 +51,7 @@ public class GroupRepository {
                     j--;
                 }
             }
-            if (randomStudentList.size()>4){
+            if (randomStudentList.size()>5){
                 throw new MaximumNumberOfStudentsReached("Too many students added to one group");
             }
         } catch (MaximumNumberOfStudentsReached e) {
