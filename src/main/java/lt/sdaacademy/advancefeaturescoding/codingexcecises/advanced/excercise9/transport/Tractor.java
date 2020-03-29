@@ -1,6 +1,6 @@
 package lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise9.transport;
 
-public class Tractor extends CommonData{
+public class Tractor extends Vehicle {
 
     private int maxPullWeight;
 

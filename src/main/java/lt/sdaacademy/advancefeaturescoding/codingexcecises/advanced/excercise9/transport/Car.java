@@ -1,6 +1,6 @@
 package lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise9.transport;
 
-public class Car extends CommonData{
+public class Car extends Vehicle {
     private int topSpeed;
     private CarTransmissionEnumClass carTransmission;
     private CarShapeEnumClass carShape;
@@ -10,5 +10,12 @@ public class Car extends CommonData{
         this.topSpeed = topSpeed;
         this.carTransmission = carTransmission;
         this.carShape = carShape;
+    }
+
+    @Override
+    public String toString() {
+        return "Car: "+ super.toString() + " topSpeed= " + topSpeed +
+                ", carTransmission= " + carTransmission +
+                ", carShape= " + carShape;
     }
 }

@@ -1,0 +1,5 @@
+Car: brand= Mercedes, model= C180, price=20000, topSpeed= 220, carTransmission= Automatic, carShape= Sedan
+Car: brand= Mercedes, model= C230, price=25000, topSpeed= 240, carTransmission= Automatic, carShape= Coupe
+Car: brand= Volkswagen, model= Passat, price=18000, topSpeed= 200, carTransmission= Manual, carShape= Sedan
+Car: brand= BMW, model= 3, price=22500, topSpeed= 240, carTransmission= Manual, carShape= Wagon
+Car: brand= Honda, model= Civic, price=13000, topSpeed= 180, carTransmission= Manual, carShape= Coupe
