@@ -2,18 +2,19 @@ package lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10
 
 import java.util.Map;
 import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.goods.Coin;
-import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.goods.CurencyType;
+import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.goods.Currency;
 import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.goods.Product;
 
 public class VendingMachine {
-    CurencyType curencyType;
+    Currency currency;
     Map<Product, Integer> productStock;
     Map<Coin, Integer> coinStock;
 
-    public VendingMachine(CurencyType curencyType, Map<Product, Integer> productStock, Map<Coin, Integer> coinStock) {
-        this.curencyType = curencyType;
+    public VendingMachine(Currency currency, Map<Product, Integer> productStock, Map<Coin, Integer> coinStock) {
+        this.currency = currency;
         this.productStock = productStock;
         this.coinStock = coinStock;
     }
+
 
 }

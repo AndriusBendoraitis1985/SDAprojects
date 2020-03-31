@@ -17,6 +17,6 @@ public class Main {
     public static void main(String[] args) {
        VendingMachine vendingMachine = Read.read();
         System.out.println(vendingMachine);
-
+//TODO start from first point
     }
 }
