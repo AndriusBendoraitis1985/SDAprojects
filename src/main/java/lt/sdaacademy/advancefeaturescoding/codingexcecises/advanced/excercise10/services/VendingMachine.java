@@ -16,5 +16,20 @@ public class VendingMachine {
         this.coinStock = coinStock;
     }
 
+    public Map<Product, Integer> getProductStock() {
+        return productStock;
+    }
 
+    public Map<Coin, Integer> getCoinStock() {
+        return coinStock;
+    }
+
+    @Override
+    public String toString() {
+        return "VendingMachine{" +
+                "currency=" + currency +
+                ", productStock=" + productStock +
+                ", coinStock=" + coinStock +
+                '}';
+    }
 }

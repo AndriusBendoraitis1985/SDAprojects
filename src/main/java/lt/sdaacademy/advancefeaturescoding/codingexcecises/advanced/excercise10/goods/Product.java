@@ -13,4 +13,20 @@ public class Product {
         this.price = price;
         this.size = size;
     }
+
+    public int getCod() {
+        return cod;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return "Code= " + cod +
+                ", name= " + name +
+                ", price= " + price +
+                ", size= " + size +" ";
+    }
 }
