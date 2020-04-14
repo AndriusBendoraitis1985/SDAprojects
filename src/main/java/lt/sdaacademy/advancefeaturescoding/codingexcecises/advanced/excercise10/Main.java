@@ -26,14 +26,36 @@ public class Main {
 
         Map<Product, Integer> productStock = vendingMachineStock.getProductStock();
         Map<Coin, Integer> coinStock = vendingMachineStock.getCoinStock();
-        Map<Product, Integer> selectedProducts = selectProduct(productStock);
-        selectedProducts.entrySet().forEach(System.out::println);
+        Map<Product, Integer> selectedProducts = getSelectProductMap(productStock);
         int totalCostOfProducts = getTotalCostOfAllSelectedProducts(selectedProducts);
-        Map<Coin, Integer> insertedCoins = getInsertedCoinsMap(totalCostOfProducts, coinStock);
+        System.out.println("Product cost=" + totalCostOfProducts);
+        Map<Coin, Integer> insertedCoins = getInsertedCoinsMap(coinStock);
+        int totalValueOfInsertedCoints = getTotalValueOfAllInsertedCoins(insertedCoins);
+        System.out.println("Inserted coins value=" + totalValueOfInsertedCoints);
+
+        Scanner inputText = new Scanner(System.in);
+        System.out.println("Do you want to cancel your order? Yes:No");
+        if (inputText.nextLine().toLowerCase().equals("yes")) {
+            vendingMachineStock = Read.read();
+            selectedProducts.clear();
+            insertedCoins.clear();
+        } else {
+            if (totalCostOfProducts > totalValueOfInsertedCoints) {
+                System.out.println("Insufficient coins value. Please insert more coins.");
+                getInsertedCoinsMap(coinStock);
+
+            }
+        }
+
+        System.out.println("");
+
+        selectedProducts.entrySet().forEach(System.out::println);
+        insertedCoins.entrySet().forEach(System.out::println);
+
 
     }
 
-    private static Map<Product, Integer> selectProduct(Map<Product, Integer> productStock) {
+    private static Map<Product, Integer> getSelectProductMap(Map<Product, Integer> productStock) {
         Map<Product, Integer> selectedProducts = new HashMap<>();
         boolean repeat = true;
         while (repeat) {
@@ -49,7 +71,12 @@ public class Main {
                         .filter(code -> code.getCod() == requestedCodeByUser)
                         .findFirst()
                         .get();
-                mapSelectedProductsHashMap(requestedProduct, selectedProducts);
+                if (selectedProducts.containsKey(requestedProduct)) {
+                    selectedProducts.replace(requestedProduct, (selectedProducts.get(requestedProduct) + 1));
+                }
+                if (!selectedProducts.containsKey(requestedProduct)) {
+                    selectedProducts.put(requestedProduct, 1);
+                }
                 if (productStock.get(requestedProduct) > 1) {
                     productStock.replace(requestedProduct, (productStock.get(requestedProduct) - 1));
                 } else {
@@ -68,42 +95,39 @@ public class Main {
         return selectedProducts;
     }
 
-    private static void mapSelectedProductsHashMap(Product product, Map<Product, Integer> selectedProducts) {
-        if (selectedProducts.containsKey(product)) {
-            selectedProducts.replace(product, (selectedProducts.get(product) + 1));
-        }
-        if (!selectedProducts.containsKey(product)) {
-            selectedProducts.put(product, 1);
-        }
-    }
-
     private static int getTotalCostOfAllSelectedProducts(Map<Product, Integer> selectedProducts) {
-        return selectedProducts.keySet().stream().mapToInt(Product::getPrice).sum();
+        int totalCostOfProducts = 0;
+        for (Map.Entry<Product, Integer> product : selectedProducts.entrySet()) {
+            totalCostOfProducts += product.getKey().getPrice() * product.getValue();
+        }
+        return totalCostOfProducts;
     }
 
-    private static Map<Coin, Integer> getInsertedCoinsMap(int totalPrice, Map<Coin, Integer> coinStock) {
+    private static Map<Coin, Integer> getInsertedCoinsMap(Map<Coin, Integer> coinStock) {
         Map<Coin, Integer> insertedCoins = new HashMap<>();
         Scanner inputNumber = new Scanner(System.in);
-        int totalValueOfAllInsertedCoints = getTotalValueOfAllInsertedCoins(insertedCoins);
-        System.out.printf("\nTotal sum of all products= %s EUR\n", totalPrice);
-        System.out.printf("\nTotal sum of inserted coins= %s EUR\n", totalValueOfAllInsertedCoints);
-        System.out.println("Please choose and insert the coin.");
-        coinStock.keySet().forEach(System.out::println);
-        System.out.println("Which coin did you insert? Write a code.");
-        int cointCode = inputNumber.nextInt();
+        Scanner inputText = new Scanner(System.in);
+        boolean repeatInsertCoins = true;
 
-
-        if (coinStock.keySet().stream().anyMatch(coin -> coin.getCod() == cointCode)) {
-            Coin curentInsertedcoin = coinStock.keySet().stream().filter(coin -> coin.getCod() == cointCode).findFirst().get();
-            if (!coinStock.entrySet().contains(curentInsertedcoin)) {
-                insertedCoins.put(curentInsertedcoin, 1);
+        while (repeatInsertCoins) {
+            System.out.println("Please choose and insert the coin.");
+            coinStock.keySet().forEach(System.out::println);
+            System.out.println("Which coin did you insert? Write a code.");
+            int cointCode = inputNumber.nextInt();
+            if (coinStock.keySet().stream().anyMatch(coin -> coin.getCod() == cointCode)) {
+                Coin currentInsertedCoin = coinStock.keySet().stream().filter(coin -> coin.getCod() == cointCode).findAny().orElse(null);
+                if (insertedCoins.keySet().stream().anyMatch(coin -> coin.getCod() == currentInsertedCoin.getCod())) {
+                    insertedCoins.replace(currentInsertedCoin, insertedCoins.get(currentInsertedCoin) + 1);
+                } else {
+                    insertedCoins.put(currentInsertedCoin, 1);
+                }
+            } else {
+                System.out.println("Please select correct code of coin");
             }
-            if (coinStock.entrySet().contains(curentInsertedcoin)){
-                insertedCoins.replace(curentInsertedcoin, (curentInsertedcoin.getValue()+1));
+            System.out.println("Do you want insert more coins? Yes:No");
+            if (inputText.nextLine().toLowerCase().equals("no")) {
+                repeatInsertCoins = false;
             }
-        } else {
-            System.out.println("Please select correct code of coin");
-            //TODO make while loop for coint insertion
         }
         return insertedCoins;
     }
@@ -111,7 +135,7 @@ public class Main {
     private static int getTotalValueOfAllInsertedCoins(Map<Coin, Integer> insertedCoins) {
         int totalValueOfAllInsertedCoints = 0;
         for (Map.Entry<Coin, Integer> coin : insertedCoins.entrySet()) {
-            totalValueOfAllInsertedCoints = +coin.getKey().getValue() * coin.getValue();
+            totalValueOfAllInsertedCoints += (coin.getKey().getValue() * coin.getValue());
         }
         return totalValueOfAllInsertedCoints;
     }
