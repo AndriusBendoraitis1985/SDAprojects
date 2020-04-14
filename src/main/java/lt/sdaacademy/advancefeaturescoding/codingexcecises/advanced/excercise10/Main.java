@@ -19,19 +19,29 @@ import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.
 import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.services.VendingMachine;
 
 public class Main {
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
         VendingMachine vendingMachineStock = Read.read();
         assert vendingMachineStock != null;
+        System.out.println(vendingMachineStock);
 
         Map<Product, Integer> productStock = vendingMachineStock.getProductStock();
         Map<Coin, Integer> coinStock = vendingMachineStock.getCoinStock();
-        Map<Product, Integer> selectedProducts = getSelectProductMap(productStock);
+
+        Map<Product, Integer> selectedProducts = new HashMap<>();
+        getSelectProductMap(productStock, selectedProducts);
         int totalCostOfProducts = getTotalCostOfAllSelectedProducts(selectedProducts);
-        System.out.println("Product cost=" + totalCostOfProducts);
-        Map<Coin, Integer> insertedCoins = getInsertedCoinsMap(coinStock);
+        System.out.printf("\nProduct cost= %s EUR\n", totalCostOfProducts);
+        System.out.println();
+
+        Map<Coin, Integer> insertedCoins = new HashMap<>();
+        getInsertedCoinsMap(coinStock, insertedCoins);
         int totalValueOfInsertedCoints = getTotalValueOfAllInsertedCoins(insertedCoins);
-        System.out.println("Inserted coins value=" + totalValueOfInsertedCoints);
+        System.out.printf("\nInserted coins value= %s EUR\n", totalValueOfInsertedCoints);
+        System.out.println();
+
+        selectedProducts.entrySet().forEach(System.out::println);
+        insertedCoins.entrySet().forEach(System.out::println);
 
         Scanner inputText = new Scanner(System.in);
         System.out.println("Do you want to cancel your order? Yes:No");
@@ -40,23 +50,42 @@ public class Main {
             selectedProducts.clear();
             insertedCoins.clear();
         } else {
+            if (totalCostOfProducts == totalValueOfInsertedCoints) {
+                putCoinsintoVendingMachineCoinStock(vendingMachineStock, insertedCoins);
+            }
             if (totalCostOfProducts > totalValueOfInsertedCoints) {
-                System.out.println("Insufficient coins value. Please insert more coins.");
-                getInsertedCoinsMap(coinStock);
-
+                boolean addmoney = true;
+                while (addmoney) {
+                    System.out.println("Insufficient coins value. Please insert more coins.");
+                    getInsertedCoinsMap(coinStock, insertedCoins);
+                    System.out.printf("\nProduct cost= %s EUR\n", totalCostOfProducts);
+                    totalValueOfInsertedCoints = getTotalValueOfAllInsertedCoins(insertedCoins);
+                    System.out.printf("Inserted coins value= %s EUR\n", totalValueOfInsertedCoints);
+                    if (totalCostOfProducts == totalValueOfInsertedCoints) {
+                        System.out.println("Please take your products");
+                        putCoinsintoVendingMachineCoinStock(vendingMachineStock, insertedCoins);
+                        addmoney = false;
+                    }
+                    if (totalCostOfProducts>totalValueOfInsertedCoints){
+                        System.out.println("Still insufficient coins value. Do you want insert more coins or cancel your order? Yes:No");
+                        if (inputText.nextLine().toLowerCase().equals("yes")) {
+                            vendingMachineStock = Read.read();
+                            selectedProducts.clear();
+                            insertedCoins.clear();
+                            addmoney = false;
+                        }
+                    }
+                    if (totalCostOfProducts>totalValueOfInsertedCoints){
+                        //TODO give change
+                    }
+                }
             }
         }
-
-        System.out.println("");
-
         selectedProducts.entrySet().forEach(System.out::println);
         insertedCoins.entrySet().forEach(System.out::println);
-
-
     }
 
-    private static Map<Product, Integer> getSelectProductMap(Map<Product, Integer> productStock) {
-        Map<Product, Integer> selectedProducts = new HashMap<>();
+    private static void getSelectProductMap(Map<Product, Integer> productStock, Map<Product, Integer> selectedProducts) {
         boolean repeat = true;
         while (repeat) {
             System.out.println("Please select a product:");
@@ -92,7 +121,6 @@ public class Main {
                 repeat = false;
             }
         }
-        return selectedProducts;
     }
 
     private static int getTotalCostOfAllSelectedProducts(Map<Product, Integer> selectedProducts) {
@@ -103,8 +131,7 @@ public class Main {
         return totalCostOfProducts;
     }
 
-    private static Map<Coin, Integer> getInsertedCoinsMap(Map<Coin, Integer> coinStock) {
-        Map<Coin, Integer> insertedCoins = new HashMap<>();
+    private static void getInsertedCoinsMap(Map<Coin, Integer> coinStock, Map<Coin, Integer> insertedCoins) {
         Scanner inputNumber = new Scanner(System.in);
         Scanner inputText = new Scanner(System.in);
         boolean repeatInsertCoins = true;
@@ -129,7 +156,6 @@ public class Main {
                 repeatInsertCoins = false;
             }
         }
-        return insertedCoins;
     }
 
     private static int getTotalValueOfAllInsertedCoins(Map<Coin, Integer> insertedCoins) {
@@ -138,5 +164,14 @@ public class Main {
             totalValueOfAllInsertedCoints += (coin.getKey().getValue() * coin.getValue());
         }
         return totalValueOfAllInsertedCoints;
+    }
+
+    private static void putCoinsintoVendingMachineCoinStock(VendingMachine vendingMachineStock, Map<Coin, Integer> insertedCoins) {
+        for (Map.Entry<Coin, Integer> coinElement : insertedCoins.entrySet()) {
+            if (vendingMachineStock.getCoinStock().keySet().stream().anyMatch(coin -> coin == coinElement.getKey())) {
+                vendingMachineStock.getCoinStock().replace(coinElement.getKey(), vendingMachineStock
+                        .getCoinStock().get(coinElement.getKey()) + coinElement.getValue());
+            }
+        }
     }
 }
