@@ -11,14 +11,18 @@ package lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10
 
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.goods.Coin;
 import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.goods.Product;
 import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.services.Read;
 import lt.sdaacademy.advancefeaturescoding.codingexcecises.advanced.excercise10.services.VendingMachine;
+import org.apache.log4j.Logger;
 
 public class Main {
+
+    private static final Logger logger = Logger.getLogger(Read.class);
 
     public static void main(String[] args) {
         VendingMachine vendingMachineStock = Read.read();
@@ -44,43 +48,42 @@ public class Main {
         insertedCoins.entrySet().forEach(System.out::println);
 
         Scanner inputText = new Scanner(System.in);
-        System.out.println("Do you want to cancel your order? Yes:No");
-        if (inputText.nextLine().toLowerCase().equals("yes")) {
-            vendingMachineStock = Read.read();
-            selectedProducts.clear();
-            insertedCoins.clear();
-        } else {
-            if (totalCostOfProducts == totalValueOfInsertedCoints) {
-                putCoinsintoVendingMachineCoinStock(vendingMachineStock, insertedCoins);
+        if (totalCostOfProducts == totalValueOfInsertedCoints) {
+            System.out.println("Inserted coins are sufficient for selected products.\nWhat do you want to do? Proceed:Cancel");
+            if (inputText.nextLine().toLowerCase().equals("cancel")) {
+                cancelAllOperations(vendingMachineStock, selectedProducts, insertedCoins);
+            } else {
+                confirmPurchase(vendingMachineStock, selectedProducts, insertedCoins);
+                Read.write(vendingMachineStock);
             }
-            if (totalCostOfProducts > totalValueOfInsertedCoints) {
-                boolean addmoney = true;
-                while (addmoney) {
-                    System.out.println("Insufficient coins value. Please insert more coins.");
+        } else if (totalCostOfProducts > totalValueOfInsertedCoints) {
+            boolean addmoney = true;
+            while (addmoney) {
+                System.out.println("Inserted coins are insufficient for selected products.\nWhat do you want to do? Proceed:Cancel");
+                if (inputText.nextLine().toLowerCase().equals("cancel")) {
+                    cancelAllOperations(vendingMachineStock, selectedProducts, insertedCoins);
+                    addmoney = false;
+                } else {
                     getInsertedCoinsMap(coinStock, insertedCoins);
-                    System.out.printf("\nProduct cost= %s EUR\n", totalCostOfProducts);
                     totalValueOfInsertedCoints = getTotalValueOfAllInsertedCoins(insertedCoins);
-                    System.out.printf("Inserted coins value= %s EUR\n", totalValueOfInsertedCoints);
                     if (totalCostOfProducts == totalValueOfInsertedCoints) {
-                        System.out.println("Please take your products");
-                        putCoinsintoVendingMachineCoinStock(vendingMachineStock, insertedCoins);
+                        confirmPurchase(vendingMachineStock, selectedProducts, insertedCoins);
+                        Read.write(vendingMachineStock);
                         addmoney = false;
-                    }
-                    if (totalCostOfProducts>totalValueOfInsertedCoints){
-                        System.out.println("Still insufficient coins value. Do you want insert more coins or cancel your order? Yes:No");
-                        if (inputText.nextLine().toLowerCase().equals("yes")) {
-                            vendingMachineStock = Read.read();
-                            selectedProducts.clear();
-                            insertedCoins.clear();
-                            addmoney = false;
-                        }
-                    }
-                    if (totalCostOfProducts>totalValueOfInsertedCoints){
-                        //TODO give change
                     }
                 }
             }
+        } else {
+            System.out.println("Inserted coins are sufficient for selected products.\nWhat do you want to do? Proceed:Cancel");
+            if (inputText.nextLine().toLowerCase().equals("cancel")) {
+                cancelAllOperations(vendingMachineStock, selectedProducts, insertedCoins);
+            } else {
+                confirmPurchase(vendingMachineStock, selectedProducts, insertedCoins);
+                giveChange(vendingMachineStock, (totalValueOfInsertedCoints - totalCostOfProducts));
+                Read.write(vendingMachineStock);
+            }
         }
+
         selectedProducts.entrySet().forEach(System.out::println);
         insertedCoins.entrySet().forEach(System.out::println);
     }
@@ -106,10 +109,12 @@ public class Main {
                 if (!selectedProducts.containsKey(requestedProduct)) {
                     selectedProducts.put(requestedProduct, 1);
                 }
-                if (productStock.get(requestedProduct) > 1) {
+                if (productStock.get(requestedProduct) > 0) {
                     productStock.replace(requestedProduct, (productStock.get(requestedProduct) - 1));
                 } else {
-                    productStock.remove(requestedProduct);
+                    productStock.replace(requestedProduct, 0);
+                    selectedProducts.replace(requestedProduct, (selectedProducts.get(requestedProduct) - 1));
+                    logger.error("selected product quantity is Insufficient < 1;\n Value reset = 0");
                 }
             } else {
                 System.out.println("Please check your choice");
@@ -166,11 +171,43 @@ public class Main {
         return totalValueOfAllInsertedCoints;
     }
 
-    private static void putCoinsintoVendingMachineCoinStock(VendingMachine vendingMachineStock, Map<Coin, Integer> insertedCoins) {
+    private static void cancelAllOperations(VendingMachine vendingMachineStock, Map<Product, Integer> selectedProducts, Map<Coin, Integer> insertedCoins) {
+        vendingMachineStock = Read.read();
+        selectedProducts.clear();
+        insertedCoins.clear();
+    }
+
+    private static void confirmPurchase(VendingMachine vendingMachineStock, Map<Product, Integer> selectedProducts, Map<Coin, Integer> insertedCoins) {
+        selectedProducts.clear();
+        putCoinsIntoVendingMachineCoinStock(vendingMachineStock, insertedCoins);
+        insertedCoins.clear();
+    }
+
+    private static void putCoinsIntoVendingMachineCoinStock(VendingMachine vendingMachineStock, Map<Coin, Integer> insertedCoins) {
         for (Map.Entry<Coin, Integer> coinElement : insertedCoins.entrySet()) {
             if (vendingMachineStock.getCoinStock().keySet().stream().anyMatch(coin -> coin == coinElement.getKey())) {
                 vendingMachineStock.getCoinStock().replace(coinElement.getKey(), vendingMachineStock
                         .getCoinStock().get(coinElement.getKey()) + coinElement.getValue());
+            }
+        }
+    }
+
+    private static void giveChange(VendingMachine vendingMachineStock, int change) {
+        Map<Coin, Integer> coinByValue = new LinkedHashMap<>();
+        vendingMachineStock.getCoinStock().entrySet().stream()
+                .sorted(Map.Entry.<Coin, Integer>comparingByValue().reversed())
+                .forEachOrdered(coinIntegerEntry -> coinByValue.put(coinIntegerEntry.getKey(), coinIntegerEntry.getValue()));
+        while (change > 0) {
+            for (Map.Entry<Coin, Integer> coin : coinByValue.entrySet()) {
+                if (change % coin.getKey().getValue() == 0 && coin.getValue() != 0) {
+                    vendingMachineStock.getCoinStock().replace(coin.getKey(), (vendingMachineStock.getCoinStock().get(coin.getKey()) - 1));
+                    coinByValue.replace(coin.getKey(), (coinByValue.get(coin.getKey()) - 1));
+                    change -= coin.getKey().getValue();
+                }
+                if (vendingMachineStock.getCoinStock().get(vendingMachineStock.getCoinStock().keySet().stream().filter(c -> c.getValue()==1))==0){
+                    logger.error("not enough coins for change");
+                    break;
+                }
             }
         }
     }
